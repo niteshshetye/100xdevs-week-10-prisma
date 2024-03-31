@@ -19,7 +19,7 @@ model User {
   firstname String?
   lastname  String?
   password  String
-  Todo      Todo[]
+  todo      Todo[]
 }
 
 model Todo {
