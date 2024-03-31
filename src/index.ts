@@ -1,11 +1,11 @@
 import { PrismaClient } from "@prisma/client";
 
-function prismaClient() {
-  const prisma = new PrismaClient();
+function generateClient() {
+  const prisma = new PrismaClient({ log: ["info", "query", "error"] });
   return prisma;
 }
 
-const client = prismaClient();
+const client = generateClient();
 
 async function insertUser(
   email: string,
@@ -31,8 +31,6 @@ async function insertUser(
   console.log(`user with ${email} is created successfully...!`, response);
 }
 
-// insertUser("niteshshetye@gmail.com", "password", "nitesh", "shetye");
-
 async function updateUser(email: string, firstname: string, lastname: string) {
   const response = await client.user.update({
     where: { email },
@@ -50,11 +48,22 @@ async function updateUser(email: string, firstname: string, lastname: string) {
 
   console.log(`${email} is updated succefully...!`, { response });
 }
-// updateUser("niteshshetye@gmail.com", "Nitesh Anant", "Shetye");
 
 async function getUserlist() {
   const response = await client.user.findMany();
   console.log("user list: ", { response });
 }
 
-getUserlist();
+async function main() {
+  await insertUser(
+    "niteshshetye1234@gmail.com",
+    "password",
+    "nitesh",
+    "shetye"
+  );
+
+  await updateUser("niteshshetye1234@gmail.com", "Nitesh Anant", "Shetye");
+  await getUserlist();
+}
+
+main();
